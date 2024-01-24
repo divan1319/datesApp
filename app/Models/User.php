@@ -3,6 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Models\clients\Client;
+use App\Models\establishments\Establishment;
+use App\Models\freelancers\Freelancer;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -21,6 +25,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'username',
+        'telephone',
+        'dui'
     ];
 
     /**
@@ -42,4 +49,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    public function client(){
+        return $this->hasOne(Client::class,'user_id');
+    }
+
+    public function establishment(){
+        return $this->hasOne(Establishment::class,'user_id');
+    }
+
+    public function freelancer(){
+        return $this->hasOne(Freelancer::class,'user_id');
+    }
 }

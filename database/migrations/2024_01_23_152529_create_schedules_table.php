@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('days');
             $table->time('start_hour');
             $table->time('end_hour');
-            $table->char('type');
+            $table->enum('type',['negocio','independiente']);
         });
     }
 

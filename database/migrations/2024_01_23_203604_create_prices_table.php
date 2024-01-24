@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('freelancer_id')->nullable()->constrained()->cascadeOnUpdate();
             $table->decimal('price',10,2);
             $table->time('time');
-            $table->char('type');
+            $table->enum('type',['negocio','independiente']);
         });
     }
 

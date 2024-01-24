@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnUpdate();
             $table->string('description');
-            $table->string('services');
-            $table->string('places');
+            $table->jsonb('services');
+            $table->jsonb('places');
             $table->timestamps();
         });
     }
