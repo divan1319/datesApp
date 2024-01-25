@@ -32,7 +32,7 @@ class RegisterRequest extends FormRequest
             ],
             'username'=>['required','min:8','string','unique:users,username'],
             'dui'=> ['required','min:9','unique:users,dui'],
-            'telephone'=> ['required','min:8','phone','country:SV']
+            'telephone'=> ['required','min:8','int']
         ];
     }
 
