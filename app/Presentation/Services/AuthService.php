@@ -24,12 +24,12 @@ class AuthService {
             $userDto = AuthDto::createUser($data);
             
             $user = User::create([
-                'name' => $userDto['name'],
-                'username'=> $userDto['username'],
-                'email'=> $userDto['email'],
-                'telephone'=> $userDto['telephone'],
-                'dui'=> $userDto['dui'],
-                'password'=> bcrypt($userDto['password'])
+                'name' => $userDto->name,
+                'username'=> $userDto->username,
+                'email'=> $userDto->email,
+                'telephone'=> $userDto->telephone,
+                'dui'=> $userDto->dui,
+                'password'=> bcrypt($userDto->password)
             ]);
 
             $userInfo = UserEntity::fromArray($user);
@@ -40,7 +40,7 @@ class AuthService {
         } catch (\Throwable $th) {
             //throw $th;
             
-            return throw $th;
+           throw $th;
         }
 
         

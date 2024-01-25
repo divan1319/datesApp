@@ -13,7 +13,7 @@ class AuthController extends Controller{
         
     }
     public function register(RegisterRequest $registerRequest){
-        dd('d');
+        
         $user =  new AuthService();
         $newUser = $user->registerUser($registerRequest);
 
