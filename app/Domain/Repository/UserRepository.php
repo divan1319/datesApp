@@ -6,6 +6,7 @@ use App\Domain\Dtos\Auth\LoginDto;
 use App\Domain\Dtos\Auth\RegisterDto;
 use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 
 class UserRepository{
@@ -23,14 +24,14 @@ class UserRepository{
             return $user;
     }
 
-    public function loginUser(LoginDto $loginDto):Authenticatable{
-        
+    public function loginUser(LoginDto $loginDto):Authenticatable|JsonResponse{
+
         if (!auth()->attempt(['username' => $loginDto->username, 'password' => $loginDto->password])) {
-            return response([
-                'error' => 'Credenciales inconrrectas'
+            return response()->json([
+                'error' => 'Tiene credencial le estoy preguntando'
             ], 422);
         }
 
-        return auth()->user();;
+        return auth()->user();
     }
 }

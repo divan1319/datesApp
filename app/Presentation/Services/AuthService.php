@@ -54,11 +54,15 @@ class AuthService
 
             $user = $this->userRepository->loginUser($userDto);
 
+            if($user instanceof JsonResponse){
+                return $user;
+            }
+
             $userInfo = UserEntity::fromArray($user->toArray());
 
             return response()->json([
                 'user' => $userInfo,
-                'token' => $user->createToken('token',['*'], now()->addDay())->plainTextToken
+                'token' => $user->createToken('token',['*'], now()->addHour())->plainTextToken
             ],200);
 
         } catch (\Throwable $th) {
