@@ -60,10 +60,21 @@ class AuthService
 
             $userInfo = UserEntity::fromArray($user->toArray());
 
-            return response()->json([
-                'user' => $userInfo,
-                'token' => $user->createToken('token',['*'], now()->addHour())->plainTextToken
-            ],200);
+            if($user->client){
+                $userInfo->type = "client";
+                return response()->json([
+                    'user'=>$userInfo,
+                    'client'=>$user->client->id
+                ],200);
+            }else{
+                
+                return response()->json([
+                    'user' => $userInfo,
+                    'token' => $user->createToken('token',['*'], now()->addHour())->plainTextToken
+                ],200);
+            }
+
+
 
         } catch (\Throwable $th) {
             return response()->json([
