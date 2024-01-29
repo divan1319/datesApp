@@ -7,6 +7,7 @@ namespace App\Models;
 use App\Models\clients\Client;
 use App\Models\establishments\Establishment;
 use App\Models\freelancers\Freelancer;
+//use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;

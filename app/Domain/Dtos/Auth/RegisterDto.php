@@ -14,6 +14,7 @@ class RegisterDto{
     {}
 
     static function createUser(array $obj): self{
+
         return new self($obj['name'],$obj['username'],$obj['email'],$obj['telephone'],$obj['dui'],$obj['password']);
     }
 }

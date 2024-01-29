@@ -4,7 +4,7 @@ namespace App\Domain\Dtos\Auth;
 
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class LoginDto{
+readonly class LoginDto{
 
     public function __construct(
         public string $username,

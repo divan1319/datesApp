@@ -1,6 +1,7 @@
 <?php
 
 use App\Presentation\Auth\AuthController;
+use App\Presentation\Clients\ClientController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,7 +19,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::controller()->middleware(['auth:sanctum','verified'])->group();
+//Route::controller()->middleware(['auth:sanctum','verified'])->group();
+//Route::middleware('auth:sanctum')->;
 
+Route::prefix('client')->middleware(['auth:sanctum'])->group(function(){
+    Route::post('/',[ClientController::class,'create']);
+});
 Route::post('/registro',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
