@@ -32,7 +32,7 @@ class RegisterRequest extends FormRequest
             ],
             'username'=>['required','min:8','string','unique:users,username'],
             'dui'=> ['required','min:9','unique:users,dui'],
-            'telephone'=> ['required','min:8','int']
+            'telephone'=> ['required','min:8','int','unique:users,telephone']
         ];
     }
 
@@ -53,7 +53,8 @@ class RegisterRequest extends FormRequest
             'dui.unique'=>'El DUI ya se encuentra registrado',
             'dui.min' => 'El DUI no cumple con la longitud correcta',
             'telephone.required'=>'El número de teléfono es requerido',
-            'telephone.phone' => 'El número de teléfono no es valido'
+            'telephone.phone' => 'El número de teléfono no es valido',
+            'telephone.unique' => 'Este número de telefono ya se encuentra registrado'
         ];
     }
 }

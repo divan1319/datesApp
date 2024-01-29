@@ -17,6 +17,7 @@ return new class extends Migration
             $table->foreignId('employee_id')->nullable()->constrained()->cascadeOnUpdate();
             $table->foreignId('freelancer_id')->nullable()->constrained()->cascadeOnUpdate();
             $table->dateTime('date');
+            $table->string('place')->nullable();
             $table->time('hours');
             $table->char('status');
             $table->enum('type',['negocio','independiente']);

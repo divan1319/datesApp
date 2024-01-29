@@ -27,7 +27,7 @@ class User extends Authenticatable
         'password',
         'username',
         'telephone',
-        'dui'
+        'dui',
     ];
 
     /**

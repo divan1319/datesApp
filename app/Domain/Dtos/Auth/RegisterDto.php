@@ -2,7 +2,7 @@
 
 namespace  App\Domain\Dtos\Auth;
 
-class AuthDto{
+class RegisterDto{
     private function __construct(
         public string $name,
         public string $username,
@@ -13,7 +13,7 @@ class AuthDto{
     )
     {}
 
-    static function createUser(array $obj): AuthDto{
-        return new AuthDto($obj['name'],$obj['username'],$obj['email'],$obj['telephone'],$obj['dui'],$obj['password']);
+    static function createUser(array $obj): self{
+        return new self($obj['name'],$obj['username'],$obj['email'],$obj['telephone'],$obj['dui'],$obj['password']);
     }
 }
