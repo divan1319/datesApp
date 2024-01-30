@@ -1,7 +1,10 @@
 <?php
 
 use App\Presentation\Auth\AuthController;
+use App\Presentation\Auth\VerificationController;
+use App\Presentation\Auth\VerifyController;
 use App\Presentation\Clients\ClientController;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,8 +25,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //Route::controller()->middleware(['auth:sanctum','verified'])->group();
 //Route::middleware('auth:sanctum')->;
 
-Route::prefix('client')->middleware(['auth:sanctum'])->group(function(){
+Route::prefix('client')->middleware(['auth:sanctum','verified'])->group(function(){
     Route::post('/',[ClientController::class,'create']);
 });
-Route::post('/registro',[AuthController::class,'register']);
+
+Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
+//Route::post('/verification');
+Route::get('/email/verify/{id}',[VerifyController::class,'verification'])->name('verification.verify');
+
+//Route::get('/email/verify/{id}/{hash}',[VerifyController::class,]);
+

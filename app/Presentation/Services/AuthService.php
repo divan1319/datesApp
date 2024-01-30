@@ -8,6 +8,7 @@ use App\Domain\Entities\UserEntity;
 use App\Domain\Repository\UserRepository;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Http\JsonResponse;
 
 class AuthService
@@ -19,67 +20,87 @@ class AuthService
         $this->userRepository = $userRepository;
     }
 
-    public function registerUser(RegisterRequest $registerRequest):JsonResponse
+    protected function dataReturn(Authenticatable $authenticatable, UserEntity $userEntity, string $type): JsonResponse
     {
-        //Registrando al usuario
-        try {
-            //$data = $registerRequest->validated();
-            $userDto = RegisterDto::createUser($registerRequest->toArray());
-
-            $user = $this->userRepository->createUser($userDto);
-            $user->refresh();
-
-            $userInfo = UserEntity::fromArray($user->toArray());
+        if($authenticatable->client){
 
             return response()->json([
-                'user' => $userInfo,
-                'token' => $user->createToken('token',['*'], now()->addDay())->plainTextToken
-            ],201);
+                'user' =>[
+                    'id'=>$userEntity->id,
+                    'status'=>$userEntity->status
+                ],
+                'clientInfo' => [
+                    'id'=>$authenticatable->client->id,
+                    'photo'=>$authenticatable->client->photo
+                ],
+                'token' => $authenticatable->createToken('token', ['*'], now()->addHour())->plainTextToken
+            ], 202);
 
-        } catch (\Throwable $th) {
-            //throw $th;
+        }else if($authenticatable->freelancer){
             return response()->json([
-                'error'=>'Hubo un error al registrar el usuario'
-            ],500);
+                'user' => $userEntity,
+                'typeInfo' => [
+                    'type' => $type,
+                    'freelancer'=>$authenticatable->freelancer->id,
+                ],
+                'token' => $authenticatable->createToken('token', ['*'], now()->addHour())->plainTextToken
+            ], 202);
+        }else if($authenticatable->establishment){
+            return response()->json([
+                'user' => $userEntity,
+                'typeInfo' => [
+                    'type' => $type,
+                    'establishment'=>$authenticatable->establishment->id,
+                ],
+                'token' => $authenticatable->createToken('token', ['*'], now()->addHour())->plainTextToken
+            ], 202);
         }
+        
     }
 
-    public function loginUser(LoginRequest $loginRequest):JsonResponse
+    public function registerUser(RegisterRequest $registerRequest): JsonResponse
+    {
+        //Registrando al usuario
+            //$data = $registerRequest->validated();
+            $userDto = RegisterDto::createUser($registerRequest->toArray());
+            $user = $this->userRepository->createUser($userDto);
+            //$user->refresh();
+            //$userInfo = UserEntity::fromArray($user->toArray());
+            
+            return $user;
+
+    }
+
+    public function loginUser(LoginRequest $loginRequest): JsonResponse
     {
         try {
-
             //$data = $loginRequest->validated();
-            
+
             $userDto = LoginDto::login($loginRequest->toArray());
 
             $user = $this->userRepository->loginUser($userDto);
 
-            if($user instanceof JsonResponse){
+            if ($user instanceof JsonResponse) {
                 return $user;
             }
 
             $userInfo = UserEntity::fromArray($user->toArray());
 
-            if($user->client){
-                $userInfo->type = "client";
-                return response()->json([
-                    'user'=>$userInfo,
-                    'client'=>$user->client->id
-                ],200);
-            }else{
-                
-                return response()->json([
-                    'user' => $userInfo,
-                    'token' => $user->createToken('token',['*'], now()->addHour())->plainTextToken
-                ],200);
+            if ($user->client) {
+
+                return $this->dataReturn($user, $userInfo, "cliente");
+            } else if ($user->establishment) {
+
+                return $this->dataReturn($user, $userInfo, "establecimiento");
+            } else if ($user->freelancer) {
+
+                return $this->dataReturn($user, $userInfo, "independiente");
             }
-
-
 
         } catch (\Throwable $th) {
             return response()->json([
-                'error'=>'Error al iniciar sesión'.$th
-            ],500);
+                'error' => 'Error al iniciar sesión' . $th->getMessage()
+            ], 500);
         }
     }
 }
