@@ -86,16 +86,25 @@ class AuthService
 
             $userInfo = UserEntity::fromArray($user->toArray());
 
-            if ($user->client) {
+            if($user->client || $user->establishment || $user->freelancer){
+                if ($user->client) {
 
-                return $this->dataReturn($user, $userInfo, "cliente");
-            } else if ($user->establishment) {
+                    return $this->dataReturn($user, $userInfo, "cliente");
+                } else if ($user->establishment) {
+    
+                    return $this->dataReturn($user, $userInfo, "establecimiento");
+                } else if ($user->freelancer) {
+    
+                    return $this->dataReturn($user, $userInfo, "independiente");
+                }
 
-                return $this->dataReturn($user, $userInfo, "establecimiento");
-            } else if ($user->freelancer) {
-
-                return $this->dataReturn($user, $userInfo, "independiente");
+            }else{
+                return response()->json([
+                    'message'=>'Usuario incompleto, debe de completar el procedimiento de registro.'
+                ],422);
             }
+
+
 
         } catch (\Throwable $th) {
             return response()->json([

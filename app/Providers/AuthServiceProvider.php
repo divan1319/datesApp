@@ -25,7 +25,7 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
         VerifyEmail::toMailUsing(function(object $notifiable,string $url){
-            return (new MailMessage)->subject('Verificación de cuenta')->line('');
+            return (new MailMessage)->subject('Verificación de cuenta')->line('Haz click en el boton para verificar tu cuenta')->action('Verificar mi cuenta',$url);
         });
     }
 }
