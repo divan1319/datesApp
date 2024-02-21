@@ -100,8 +100,10 @@ class AuthService
 
             }else{
                 return response()->json([
-                    'message'=>'Usuario incompleto, debe de completar el procedimiento de registro.'
-                ],422);
+                    'message'=>'Usuario incompleto, debe de completar el procedimiento de registro.',
+                    'user'=>$userInfo,
+                    'token'=> $user->createToken('token', ['*'], now()->addHour())->plainTextToken
+                ],409);
             }
 
 
