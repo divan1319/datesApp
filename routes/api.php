@@ -4,7 +4,7 @@ use App\Presentation\Auth\AuthController;
 use App\Presentation\Auth\VerificationController;
 use App\Presentation\Auth\VerifyController;
 use App\Presentation\Clients\ClientController;
-
+use App\Presentation\Establishments\EstablishmentsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +27,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::prefix('client')->middleware(['auth:sanctum','verified'])->group(function(){
     Route::post('/',[ClientController::class,'create']);
+});
+
+Route::prefix('establishments')->middleware(['auth:sanctum','verified'])->group(function(){
+    Route::post('/',[EstablishmentsController::class,'create']);
 });
 
 Route::post('/register',[AuthController::class,'register']);

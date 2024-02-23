@@ -24,7 +24,8 @@ class UserRepository{
             ])->sendEmailVerificationNotification();
             
             return response()->json([
-                'message'=>'Usuario creado exitosamente'
+                'info'=>'Usuario creado exitosamente',
+                
             ],201);
 
         } catch (\Throwable $th) {
@@ -43,6 +44,8 @@ class UserRepository{
                 'error' => 'Tiene credencial le estoy preguntando'
             ], 422);
         }
+
+        
 
         return auth()->user();
     }

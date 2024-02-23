@@ -20,63 +20,60 @@ class AuthService
         $this->userRepository = $userRepository;
     }
 
-    protected function dataReturn(Authenticatable $authenticatable, UserEntity $userEntity, string $type): JsonResponse
+    protected function dataReturn(Authenticatable $authenticatable, UserEntity $userEntity): JsonResponse
     {
-        if($authenticatable->client){
-
+        if ($authenticatable->client) {
             return response()->json([
-                'user' =>[
-                    'id'=>$userEntity->id,
-                    'status'=>$userEntity->status
+                'user' => [
+                    'id' => $userEntity->id,
+                    'status' => $userEntity->status
                 ],
                 'clientInfo' => [
-                    'id'=>$authenticatable->client->id,
-                    'photo'=>$authenticatable->client->photo
+                    'id' => $authenticatable->client->id,
+                    'photo' => $authenticatable->client->photo
                 ],
                 'token' => $authenticatable->createToken('token', ['*'], now()->addHour())->plainTextToken
             ], 202);
-
-        }else if($authenticatable->freelancer){
+        } else if ($authenticatable->freelancer) {
             return response()->json([
                 'user' => $userEntity,
                 'typeInfo' => [
-                    'type' => $type,
-                    'freelancer'=>$authenticatable->freelancer->id,
+                    'type' => 'free',
+                    'freelancer' => $authenticatable->freelancer->id,
                 ],
                 'token' => $authenticatable->createToken('token', ['*'], now()->addHour())->plainTextToken
             ], 202);
-        }else if($authenticatable->establishment){
+        } else if ($authenticatable->establishment) {
             return response()->json([
                 'user' => $userEntity,
                 'typeInfo' => [
-                    'type' => $type,
-                    'establishment'=>$authenticatable->establishment->id,
+                    'type' => 'esta',
+                    'establishment' => $authenticatable->establishment->id,
                 ],
                 'token' => $authenticatable->createToken('token', ['*'], now()->addHour())->plainTextToken
             ], 202);
         }
-        
     }
 
     public function registerUser(RegisterRequest $registerRequest): JsonResponse
     {
         //Registrando al usuario
-            //$data = $registerRequest->validated();
-            $userDto = RegisterDto::createUser($registerRequest->toArray());
-            $user = $this->userRepository->createUser($userDto);
-            //$user->refresh();
-            //$userInfo = UserEntity::fromArray($user->toArray());
-            
-            return $user;
+        //$data = $registerRequest->validated();
+        $userDto = RegisterDto::createUser($registerRequest->toArray());
+        $user = $this->userRepository->createUser($userDto);
+        //$user->refresh();
+        //$userInfo = UserEntity::fromArray($user->toArray());
 
+        return $user;
     }
 
     public function loginUser(LoginRequest $loginRequest): JsonResponse
     {
         try {
-            //$data = $loginRequest->validated();
 
-            $userDto = LoginDto::login($loginRequest->toArray());
+            $data = $loginRequest->validated();
+
+            $userDto = LoginDto::login($data);
 
             $user = $this->userRepository->loginUser($userDto);
 
@@ -86,27 +83,19 @@ class AuthService
 
             $userInfo = UserEntity::fromArray($user->toArray());
 
-            if($user->client || $user->establishment || $user->freelancer){
-                if ($user->client) {
-
-                    return $this->dataReturn($user, $userInfo, "cliente");
-                } else if ($user->establishment) {
-    
-                    return $this->dataReturn($user, $userInfo, "establecimiento");
-                } else if ($user->freelancer) {
-    
-                    return $this->dataReturn($user, $userInfo, "independiente");
-                }
-
-            }else{
-                return response()->json([
-                    'message'=>'Usuario incompleto, debe de completar el procedimiento de registro.',
-                    'user'=>$userInfo,
-                    'token'=> $user->createToken('token', ['*'], now()->addHour())->plainTextToken
-                ],409);
+            if (!$user->hasVerifiedEmail()) {
+                return response()->json(['info' => 'Usuario no verificado']);
             }
 
+            if ($user->client || $user->establishment || $user->freelancer) {
+                return $this->dataReturn($user, $userInfo);
+            }
 
+            return response()->json([
+                'message' => 'Usuario incompleto, debe de completar el procedimiento de registro.',
+                'id' => $userInfo->id,
+                'token' => $user->createToken('token', ['*'], now()->addHour())->plainTextToken
+            ], 409);
 
         } catch (\Throwable $th) {
             return response()->json([
