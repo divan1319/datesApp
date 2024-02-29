@@ -10,6 +10,13 @@ class Establishment extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'user_id',
+        'telephone',
+        'address'
+    ];
+
     public function user(){
         return $this->belongsTo(User::class,'user_id');
     }

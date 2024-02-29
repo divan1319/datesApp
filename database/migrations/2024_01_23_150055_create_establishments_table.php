@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('establishments', function (Blueprint $table) {
             $table->id();
             $table->char('name',100);
-            $table->foreignId('user_id')->constrained()->cascadeOnUpdate();
+            $table->foreignId('user_id')->unique()->constrained()->cascadeOnUpdate();
             $table->char('telephone');
             $table->string('address');
             $table->timestamps();

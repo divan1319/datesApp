@@ -2,18 +2,23 @@
 
 namespace App\Presentation\Establishments;
 
+use App\Http\Requests\Establishments\EstablishmentCreateRequest;
+use App\Presentation\Services\EstablishmentsService;
 use Illuminate\Http\JsonResponse;
 
 class EstablishmentsController {
 
-    public function __construct()
+    protected $establishmentService;
+
+    public function __construct(EstablishmentsService $establishmentService)
     {
-        
+        $this->establishmentService = $establishmentService;   
     }
 
-    public function create():JsonResponse{
-        return response()->json([
-            'info'=>'success'
-        ],201);
+    public function create(EstablishmentCreateRequest $establishmentCreateRequest):JsonResponse{
+        
+        $establishment = $this->establishmentService->createEstablishment($establishmentCreateRequest);
+
+        return $establishment;
     }
 }
