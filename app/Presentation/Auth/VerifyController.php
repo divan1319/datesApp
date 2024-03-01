@@ -8,10 +8,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 
 class VerifyController extends Controller{
-    public function __construct()
-    {
-        
-    }
+
     public function verification(Request  $request, string $id){
        
        
@@ -25,8 +22,9 @@ class VerifyController extends Controller{
             $user->markEmailAsVerified();
         }
 
-        return redirect()->to('/');
-
+        return redirect()->to('https://www.facebook.com');
 
     }
+
+
 }

@@ -31,6 +31,7 @@ Route::prefix('client')->middleware(['auth:sanctum','verified'])->group(function
 
 Route::prefix('establishments')->middleware(['auth:sanctum','verified'])->group(function(){
     Route::post('/',[EstablishmentsController::class,'create']);
+    Route::get('/{id}',[EstablishmentsController::class,'get']);
 });
 
 Route::post('/register',[AuthController::class,'register']);

@@ -28,7 +28,8 @@ class AuthService
                     'id' => $userEntity->id,
                     'status' => $userEntity->status
                 ],
-                'clientInfo' => [
+                'info' => [
+                    'type'=> 1,
                     'id' => $authenticatable->client->id,
                     'photo' => $authenticatable->client->photo
                 ],
@@ -37,8 +38,8 @@ class AuthService
         } else if ($authenticatable->freelancer) {
             return response()->json([
                 'user' => $userEntity,
-                'typeInfo' => [
-                    'type' => 'free',
+                'info' => [
+                    'type' => 2,
                     'freelancer' => $authenticatable->freelancer->id,
                 ],
                 'token' => $authenticatable->createToken('token', ['*'], now()->addHour())->plainTextToken
@@ -46,9 +47,9 @@ class AuthService
         } else if ($authenticatable->establishment) {
             return response()->json([
                 'user' => $userEntity,
-                'typeInfo' => [
-                    'type' => 'esta',
-                    'establishment' => $authenticatable->establishment->id,
+                'info' => [
+                    'type' => 3,
+                    'id' => $authenticatable->establishment->id,
                 ],
                 'token' => $authenticatable->createToken('token', ['*'], now()->addHour())->plainTextToken
             ], 202);
@@ -83,10 +84,6 @@ class AuthService
 
             $userInfo = UserEntity::fromArray($user->toArray());
 
-            if (!$user->hasVerifiedEmail()) {
-                return response()->json(['info' => 'Usuario no verificado']);
-            }
-
             if ($user->client || $user->establishment || $user->freelancer) {
                 return $this->dataReturn($user, $userInfo);
             }
@@ -95,7 +92,7 @@ class AuthService
                 'message' => 'Usuario incompleto, debe de completar el procedimiento de registro.',
                 'id' => $userInfo->id,
                 'token' => $user->createToken('token', ['*'], now()->addHour())->plainTextToken
-            ], 409);
+            ], 400);
 
         } catch (\Throwable $th) {
             return response()->json([

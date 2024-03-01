@@ -14,7 +14,7 @@ class UserRepository{
 
     public function createUser(RegisterDto $registerDto):JsonResponse{
         try {
-            $user = User::create([
+            User::create([
                 'name' => $registerDto->name,
                 'username' => $registerDto->username,
                 'email' => $registerDto->email,
@@ -24,7 +24,7 @@ class UserRepository{
             ])->sendEmailVerificationNotification();
             
             return response()->json([
-                'info'=>'Usuario creado exitosamente',
+                'info'=>'Cuenta creada exitosamente',
                 
             ],201);
 
@@ -45,7 +45,12 @@ class UserRepository{
             ], 422);
         }
 
-        
+        if(!auth()->user()->hasVerifiedEmail()){
+            auth()->user()->sendEmailVerificationNotification();
+            return response()->json([
+                'message'=>'Usuario no verificado, se ha enviado un correo de verificación para la activacion de su cuenta'
+            ],422);
+        }
 
         return auth()->user();
     }
