@@ -25,13 +25,17 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //Route::controller()->middleware(['auth:sanctum','verified'])->group();
 //Route::middleware('auth:sanctum')->;
 
-Route::prefix('client')->middleware(['auth:sanctum','verified'])->group(function(){
-    Route::post('/',[ClientController::class,'create']);
+Route::prefix('client')->middleware(['auth:sanctum','verified','cliente'])->group(function(){
+
 });
 
-Route::prefix('establishments')->middleware(['auth:sanctum','verified'])->group(function(){
-    Route::post('/',[EstablishmentsController::class,'create']);
-    Route::get('/{id}',[EstablishmentsController::class,'get']);
+Route::prefix('establishments')->middleware(['auth:sanctum','verified','establishment'])->group(function(){
+    Route::get('/all',[EstablishmentsController::class,'get']);
+});
+
+Route::prefix('create')->middleware(['auth:sanctum','verified'])->group(function(){
+    Route::post('/client',[ClientController::class,'create']);
+    Route::post('/establishment',[EstablishmentsController::class,'create']);
 });
 
 Route::post('/register',[AuthController::class,'register']);
