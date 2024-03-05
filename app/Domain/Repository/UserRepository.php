@@ -48,7 +48,7 @@ class UserRepository{
         if(!auth()->user()->hasVerifiedEmail()){
             auth()->user()->sendEmailVerificationNotification();
             return response()->json([
-                'message'=>'Usuario no verificado, se ha enviado un correo de verificación para la activacion de su cuenta'
+                'message'=>'Usuario no verificado, se ha enviado un correo de confirmación para verificar su cuenta.'
             ],422);
         }
 

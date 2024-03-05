@@ -14,11 +14,11 @@ class EstablishmentsService {
         $this->establishmentRepository = $establishmentRepository;
     }
 
-    public function createEstablishment(EstablishmentCreateRequest $establishmentCreateRequest){
+    public function createEstablishment(EstablishmentCreateRequest $request){
         
-        $establishmentDto = RegisterEstablishmentDto::createEstablishment($establishmentCreateRequest->toArray());
+        $establishmentDto = RegisterEstablishmentDto::createEstablishment($request->toArray());
 
-        $establishment = $this->establishmentRepository->registerEstablishment($establishmentDto);
+        $establishment = $this->establishmentRepository->registerEstablishment($establishmentDto,$request);
 
         return $establishment;
 

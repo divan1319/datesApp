@@ -14,7 +14,8 @@ class Establishment extends Model
         'name',
         'user_id',
         'telephone',
-        'address'
+        'address',
+        'photo'
     ];
 
     public function user(){

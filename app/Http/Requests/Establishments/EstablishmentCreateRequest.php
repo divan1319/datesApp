@@ -25,7 +25,8 @@ class EstablishmentCreateRequest extends FormRequest
             'name'=>['required','string','min:5','max:50'],
             'user_id'=>['required','int','exists:users,id','unique:establishments,user_id'],
             'telephone' => ['required','regex:/^([6|7]{1})(\d{7})$/'],
-            'address'=> ['required','string','min:15']
+            'address'=> ['required','string','min:15'],
+            'photo' => ['required','image','mimes:jpg,jpeg,png']
         ];
     }
 
@@ -42,7 +43,10 @@ class EstablishmentCreateRequest extends FormRequest
             'telephone.required' => 'Número telefonico es obligatorio.',
             'telephone.regex' => 'Número telefónico no es válido, asegurate que tenga el formato correcto.',
             'address.required' => 'La dirección del establecimiento es obligatoria.',
-            'address.min' => 'La dirección del establecimiento es muy corta, asegurate de escribir completamente la dirección.'
+            'address.min' => 'La dirección del establecimiento es muy corta, asegurate de escribir completamente la dirección.',
+            'photo.required' => 'Debes de ingresar una foto para el local',
+            'photo.image' => 'Debe de ser una imagen.',
+            'photo.mimes' => 'Formato de la imagen no es aceptado.'
         ];
     }
 }
