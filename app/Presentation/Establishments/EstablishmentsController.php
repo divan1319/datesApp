@@ -2,12 +2,13 @@
 
 namespace App\Presentation\Establishments;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Establishments\EstablishmentCreateRequest;
 use App\Http\Requests\ScheduleCreateRequest;
 use App\Presentation\Services\EstablishmentsService;
 use Illuminate\Http\JsonResponse;
 
-class EstablishmentsController {
+class EstablishmentsController extends Controller{
 
     protected $establishmentService;
 

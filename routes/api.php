@@ -5,6 +5,7 @@ use App\Presentation\Auth\VerificationController;
 use App\Presentation\Auth\VerifyController;
 use App\Presentation\Clients\ClientController;
 use App\Presentation\Establishments\EstablishmentsController;
+use App\Presentation\ScheduleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,11 +20,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 //Route::controller()->middleware(['auth:sanctum','verified'])->group();
 //Route::middleware('auth:sanctum')->;
+
+Route::prefix('create')->middleware(['auth:sanctum','verified'])->group(function(){
+    Route::post('/client',[ClientController::class,'create']);
+    Route::post('/establishment',[EstablishmentsController::class,'create']);
+    Route::post('/schedule',[ScheduleController::class])->middleware(['establishment','freelancer']);
+});
 
 Route::prefix('client')->middleware(['auth:sanctum','verified','cliente'])->group(function(){
 
@@ -34,10 +38,7 @@ Route::prefix('establishments')->middleware(['auth:sanctum','verified','establis
     Route::get('/{id}',[EstablishmentsController::class,'get'])->withoutMiddleware(['auth:sanctum','verified','establishment']);
 });
 
-Route::prefix('create')->middleware(['auth:sanctum','verified'])->group(function(){
-    Route::post('/client',[ClientController::class,'create']);
-    Route::post('/establishment',[EstablishmentsController::class,'create']);
-});
+
 
 Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
