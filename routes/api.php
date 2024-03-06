@@ -30,7 +30,8 @@ Route::prefix('client')->middleware(['auth:sanctum','verified','cliente'])->grou
 });
 
 Route::prefix('establishments')->middleware(['auth:sanctum','verified','establishment'])->group(function(){
-    Route::get('/all',[EstablishmentsController::class,'get']);
+    Route::post('/create-schedule',[EstablishmentsController::class,'create_schedule']);
+    Route::get('/{id}',[EstablishmentsController::class,'get'])->withoutMiddleware(['auth:sanctum','verified','establishment']);
 });
 
 Route::prefix('create')->middleware(['auth:sanctum','verified'])->group(function(){
@@ -41,6 +42,7 @@ Route::prefix('create')->middleware(['auth:sanctum','verified'])->group(function
 Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);
 //Route::post('/verification');
+
 Route::get('/email/verify/{id}',[VerifyController::class,'verification'])->name('verification.verify');
 
 //Route::get('/email/verify/{id}/{hash}',[VerifyController::class,]);
