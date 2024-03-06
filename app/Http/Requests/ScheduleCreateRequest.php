@@ -37,7 +37,7 @@ class ScheduleCreateRequest extends FormRequest
             'freelancer_id.integer' => 'Id no valido',
             'freelancer_id.exists' => 'Freelancer no encontrado',
             'establishment_id.integer' => 'Id no valido',
-            'establishment_id.exists' => 'Freelancer no encontrado',
+            'establishment_id.exists' => 'Establisment no encontrado',
             'days.required' => 'Debes de ingresar los dias a tu horario',
             'start_hour'=> 'Debes de ingresar una hora inicial',
             'end_hour' => 'Debes de ingresar una hora final',

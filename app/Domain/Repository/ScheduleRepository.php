@@ -3,9 +3,7 @@
 namespace App\Domain\Repository;
 
 use App\Domain\Dtos\CreateScheduleDto;
-use App\Http\Requests\ScheduleCreateRequest;
 use App\Models\Schedule;
-use Illuminate\Http\Request;
 
 class ScheduleRepository
 {

@@ -41,13 +41,20 @@ class EstablishmentsService {
     public function createSchedule(ScheduleCreateRequest $request):JsonResponse{
         
         $validating_hour = ScheduleEntity::validateHours($request['start_hour'],$request['end_hour']);
-
+        $scheduleDto = CreateScheduleDto::createSchedule($request->toArray());
+        
         if(!$validating_hour){
             return response()->json([
                 'message' => 'La hora final ingresada es menor o igual que la hora inicial'
             ],400);
         }
-        $scheduleDto = CreateScheduleDto::createSchedule($request->toArray());
+
+        if(!$scheduleDto){
+            return response()->json([
+                'message' => 'Debes de registrar un negocio o freelancer'
+            ],400);
+        }
+
         $schedule = $this->scheduleRepositary->createSchedule($scheduleDto);
         $scheduleInfo = ScheduleEntity::fromArray($schedule->toArray());
 

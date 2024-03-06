@@ -3,6 +3,7 @@
 namespace App\Domain\Dtos;
 
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 
 class CreateScheduleDto{
 
@@ -15,11 +16,16 @@ class CreateScheduleDto{
         public string $type
     ){}
 
-    static function createSchedule(array $obj):self{
+    static function createSchedule(array $obj):self|bool{
         
         $start = Carbon::parse($obj['start_hour']);
         $end= Carbon::parse($obj['end_hour']);
 
-        return new self($obj['freelancer_id'],$obj['establishment_id'],$obj['days'],$start,$end,$obj['type']);
+        if(!isset($obj['freelancer_id']) && !isset($obj['establishment_id'])){
+            return false;
+        }
+
+        return new self($obj['freelancer_id'] ?? null,$obj['establishment_id'] ?? null,$obj['days'],$start,$end,$obj['type']);
     }
+
 }
