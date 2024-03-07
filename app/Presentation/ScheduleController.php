@@ -32,12 +32,13 @@ class ScheduleController extends Controller{
         }
 
         $schedule = new CreateSchedule($this->scheduleRepository);
-        $schedule->create($scheduleDto);
+        $scheduleRes = $schedule->create($scheduleDto);
 
+        $scheduleInfo = ScheduleEntity::fromArray($scheduleRes->toArray());
 
         return response()->json([
             'message' => 'Horario guardado correctamente',
-
+            'schedule' => $scheduleInfo->getId()
         ],200);
     }
 }
