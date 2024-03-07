@@ -38,11 +38,6 @@ Route::prefix('establishments')->middleware(['auth:sanctum','verified','establis
     Route::get('/{id}',[EstablishmentsController::class,'get'])->withoutMiddleware(['auth:sanctum','verified','establishment']);
 });
 
-Route::controller(ScheduleController::class)->middleware(['auth:sanctum','verified','establishment'])->group(function(){
-    Route::post('/schedule','create');
-    Route::put('/schedule/{id}','update');
-    Route::delete('/schedule/{id}','destroy');
-});
 
 Route::post('/register',[AuthController::class,'register']);
 Route::post('/login',[AuthController::class,'login']);

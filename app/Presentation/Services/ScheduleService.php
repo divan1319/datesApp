@@ -1,16 +1,14 @@
 <?php
 
-namespace App\Presentation;
+namespace App\Presentation\Services;
 
 use App\Domain\Dtos\CreateScheduleDto;
 use App\Domain\Entities\ScheduleEntity;
 use App\Domain\Repository\ScheduleRepository;
 use App\Domain\UseCases\Schedule\CreateSchedule;
-use App\Http\Controllers\Controller;
 use App\Http\Requests\ScheduleCreateRequest;
 
-class ScheduleController extends Controller{
-    
+class ScheduleService {
     public function __construct(private readonly ScheduleRepository $scheduleRepository)
     {}
 

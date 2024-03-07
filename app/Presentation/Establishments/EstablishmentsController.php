@@ -6,16 +6,18 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Establishments\EstablishmentCreateRequest;
 use App\Http\Requests\ScheduleCreateRequest;
 use App\Presentation\Services\EstablishmentsService;
+use App\Presentation\Services\ScheduleService;
 use Illuminate\Http\JsonResponse;
 
 class EstablishmentsController extends Controller{
 
-    protected $establishmentService;
 
-    public function __construct(EstablishmentsService $establishmentService)
-    {
-        $this->establishmentService = $establishmentService;   
-    }
+
+    public function __construct(
+        private readonly EstablishmentsService $establishmentService,
+        private readonly ScheduleService $scheduleService
+        )
+    {}
 
     public function create(EstablishmentCreateRequest $establishmentCreateRequest):JsonResponse{
         
@@ -32,7 +34,7 @@ class EstablishmentsController extends Controller{
 
     public function create_schedule(ScheduleCreateRequest $request){
         
-        $establishment = $this->establishmentService->createSchedule($request);
+        $establishment = $this->scheduleService->create($request);
 
         return $establishment;
     }
