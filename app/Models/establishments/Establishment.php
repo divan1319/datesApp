@@ -21,4 +21,8 @@ class Establishment extends Model
     public function user(){
         return $this->belongsTo(User::class,'user_id');
     }
+
+    public function employee(){
+        return $this->hasMany(Employee::class,'establishment_id');
+    }
 }
