@@ -35,4 +35,18 @@ class PriceEntity
 
         return new self($obj['id'],$obj['employee_id'],$obj['freelancer_id'],$obj['price'],$hora,$obj['type']);
     }
+
+    public function getId():int{
+        return $this->id;
+    }
+
+    public function getEmployeeId():int{
+        return $this->employee_id;
+    }
+
+    public function getFreelancerId():int{
+        return $this->freelancer_id;
+    }
+
+
 }
