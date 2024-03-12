@@ -5,11 +5,11 @@ namespace App\Domain\UseCases\Schedule;
 use App\Domain\Dtos\CreateScheduleDto;
 use App\Domain\Repository\ScheduleRepository;
 
-interface ICreateTodo {
+interface ICreateSchedule {
     public function create(CreateScheduleDto $createScheduleDto);
 }
 
-class CreateSchedule implements ICreateTodo{
+class CreateSchedule implements ICreateSchedule{
 
     public function __construct(
         private readonly ScheduleRepository $scheduleRepository)
