@@ -34,10 +34,11 @@ Route::prefix('client')->middleware(['auth:sanctum','verified','cliente'])->grou
 
 });
 
-Route::prefix('establishments')->middleware(['auth:sanctum','verified','establishment'])->group(function(){
-    Route::post('/create-schedule',[EstablishmentsController::class,'create_schedule']);
-    Route::post('/create-prices',[EstablishmentsController::class,'create_price']);
-    Route::get('/{id}',[EstablishmentsController::class,'get'])->withoutMiddleware(['auth:sanctum','verified','establishment']);
+Route::prefix('establishments')->controller(EstablishmentsController::class)->middleware(['auth:sanctum','verified','establishment'])->group(function(){
+    Route::post('/create-schedule','create_schedule');
+    Route::post('/create-prices','create_price');
+    Route::post('/register-employee','register_employee');
+    Route::get('/{id}','get')->withoutMiddleware(['auth:sanctum','verified','establishment']);
 });
 
 
