@@ -2,7 +2,6 @@
 
 namespace App\Domain\Entities;
 
-use DateTime;
 
 class EstablishmentEntity{
 

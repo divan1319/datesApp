@@ -10,7 +10,7 @@ class CreateScheduleDto{
     public function __construct(
         public ?int $freelancer_id,
         public ?int $establishment_id,
-        public string $days,
+        public array $days,
         public Carbon $start_hour,
         public Carbon $end_hour,
         public string $type
