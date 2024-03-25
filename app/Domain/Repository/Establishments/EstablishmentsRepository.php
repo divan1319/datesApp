@@ -39,7 +39,7 @@ class EstablishmentsRepository {
     public function getInfoEstablishment(string $id):JsonResponse{
         try {
             $establishment = Establishment::find($id);
-            if($establishment == null) return response()->json(['error'=>'No se encontro el establecimiento'],400);
+            if(is_null($establishment)) return response()->json(['error'=>'No se encontro el establecimiento.'],400);
             $infoEstablishment = EstablishmentEntity::fromArray($establishment->toArray()) ;
             
             return response()->json([
