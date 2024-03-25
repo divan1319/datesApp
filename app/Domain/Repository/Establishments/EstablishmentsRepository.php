@@ -2,9 +2,12 @@
 
 namespace App\Domain\Repository\Establishments;
 
+use App\Domain\Dtos\Establishments\RegisterEmployeeDto;
 use App\Domain\Dtos\Establishments\RegisterEstablishmentDto;
 use App\Domain\Entities\EstablishmentEntity;
+use App\Http\Requests\Establishments\CreateEmployeeRequest;
 use App\Http\Requests\Establishments\EstablishmentCreateRequest;
+use App\Models\establishments\Employee;
 use App\Models\establishments\Establishment;
 use Illuminate\Http\JsonResponse;
 
@@ -49,5 +52,26 @@ class EstablishmentsRepository {
             ],500);
         }
 
+    }
+
+    public function registerEmployee(RegisterEmployeeDto $dto, CreateEmployeeRequest $request){
+        try {
+            $image = $request->file('photo')->store('public/images/employees');
+            $imageName = str_replace('public/images/employees','',$image);
+            $employee = Employee::create([
+                'establishment_id' => $dto->establishment_id,
+                'name' => $dto->name,
+                'photo' => $imageName,
+                'status'=> $dto->status,
+                'nickname'=>$dto->nickname,
+            ]);
+
+            return $employee;
+        } catch (\Throwable $th) {
+            //throw $th;
+            return response()->json([
+                'error'=> 'Hubo un error al registrar al empleado; error: '.$th->getMessage()
+            ]);
+        }
     }
 }
