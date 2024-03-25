@@ -13,7 +13,8 @@ class Employee extends Model
         'establishment_id',
         'name',
         'photo',
-        'status'
+        'status',
+        'nickname'
     ];
 
     public function establishment(){
