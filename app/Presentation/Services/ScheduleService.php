@@ -25,7 +25,7 @@ class ScheduleService {
 
         if(!$scheduleDto){
             return response()->json([
-                'message' => 'Debes de registrar un negocio o freelancer'
+                'message' => 'Debes de ingresar el establecimiento.'
             ],400);
         }
 

@@ -8,9 +8,10 @@ use App\Models\Price;
 class PriceRepository {
     
     public function registerPrice(CreatePriceDto $createPriceDto){
+        
         try {
             $precio = Price::create([
-                'employee_id' => $createPriceDto->employee_id,
+                'establishment_id' => $createPriceDto->establishment_id,
                 'freelancer_id' => $createPriceDto->freelancer_id,
                 'price' => $createPriceDto->price,
                 'time' => $createPriceDto->time,

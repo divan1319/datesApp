@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\establishments\Establishment;
 use App\Presentation\Auth\AuthController;
 use App\Presentation\Auth\VerificationController;
 use App\Presentation\Auth\VerifyController;
@@ -35,6 +36,7 @@ Route::prefix('client')->middleware(['auth:sanctum','verified','cliente'])->grou
 
 Route::prefix('establishments')->middleware(['auth:sanctum','verified','establishment'])->group(function(){
     Route::post('/create-schedule',[EstablishmentsController::class,'create_schedule']);
+    Route::post('/create-prices',[EstablishmentsController::class,'create_price']);
     Route::get('/{id}',[EstablishmentsController::class,'get'])->withoutMiddleware(['auth:sanctum','verified','establishment']);
 });
 

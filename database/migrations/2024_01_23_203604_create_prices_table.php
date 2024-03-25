@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('prices', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('employee_id')->nullable()->constrained()->cascadeOnUpdate();
+            $table->foreignId('establishment_id')->nullable()->constrained()->cascadeOnUpdate();
             $table->foreignId('freelancer_id')->nullable()->constrained()->cascadeOnUpdate();
             $table->decimal('price',10,2);
             $table->time('time');

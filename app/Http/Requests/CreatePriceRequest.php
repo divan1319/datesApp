@@ -22,9 +22,23 @@ class CreatePriceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'employee_id' => ['nullable','integer','exists:employees,id'],
+            'establishment_id' => ['nullable','integer','exists:establishments,id'],
             'freelancer_id'=>['nullable','integer','exists:freelancers,id'],
-            'price'=>['required','decimal:2']
+            'price'=>['required','decimal:2'],
+            'time' => ['required'],
+            'type' => ['required','string']
+        ];
+    }
+
+    public function messages():array
+    {
+        return[
+            'establishment_id.exists' => 'Empleado no encontrado',
+            'freelancer_id.exists' => 'Freelancer no encontrado',
+            'price.required' => 'El precio es obligatorio.',
+            'price.decimal' => 'Solo se aceptan dos decimales.',
+            'time.required' => 'El tiempo es obligatorio.',
+            'type.required' => 'Debes de enviar el tipo de usuario.'
         ];
     }
 }

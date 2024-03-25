@@ -64,4 +64,7 @@ class EstablishmentsService {
         ],200);
     }
 
+    public function createEmployee(){
+        
+    }
 }
