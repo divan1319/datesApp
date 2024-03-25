@@ -3,10 +3,13 @@
 namespace App\Presentation\Services;
 
 use App\Domain\Dtos\CreateScheduleDto;
+use App\Domain\Dtos\Establishments\RegisterEmployeeDto;
 use App\Domain\Dtos\Establishments\RegisterEstablishmentDto;
+use App\Domain\Entities\EmployeeEntity;
 use App\Domain\Entities\ScheduleEntity;
 use App\Domain\Repository\Establishments\EstablishmentsRepository;
 use App\Domain\Repository\ScheduleRepository;
+use App\Http\Requests\Establishments\CreateEmployeeRequest;
 use App\Http\Requests\Establishments\EstablishmentCreateRequest;
 use App\Http\Requests\ScheduleCreateRequest;
 use Illuminate\Http\JsonResponse;
@@ -64,7 +67,16 @@ class EstablishmentsService {
         ],200);
     }
 
-    public function createEmployee(){
+    public function createEmployee(CreateEmployeeRequest $request){
         
+        $employeeDto = RegisterEmployeeDto::register($request->toArray());
+        $employeeRepo = $this->establishmentRepository->registerEmployee($employeeDto,$request);
+        
+        $employeeInfo = EmployeeEntity::fromArray($employeeRepo->toArray());
+
+        return response()->json([
+            'message'=> 'Empleado registrado correctamente',
+            'employee' => $employeeInfo->getId()
+        ],201);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Presentation\Establishments;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreatePriceRequest;
+use App\Http\Requests\Establishments\CreateEmployeeRequest;
 use App\Http\Requests\Establishments\EstablishmentCreateRequest;
 use App\Http\Requests\ScheduleCreateRequest;
 use App\Presentation\Services\EstablishmentsService;
@@ -48,4 +49,12 @@ class EstablishmentsController extends Controller{
 
         return $price;
     }
+
+    public function register_employee(CreateEmployeeRequest $request){
+        $employee = $this->establishmentService->createEmployee($request);
+
+        return $employee;
+    }
+
+    
 }
