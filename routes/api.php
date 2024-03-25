@@ -1,13 +1,10 @@
 <?php
 
-use App\Models\establishments\Establishment;
+
 use App\Presentation\Auth\AuthController;
-use App\Presentation\Auth\VerificationController;
 use App\Presentation\Auth\VerifyController;
 use App\Presentation\Clients\ClientController;
 use App\Presentation\Establishments\EstablishmentsController;
-use App\Presentation\ScheduleController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
